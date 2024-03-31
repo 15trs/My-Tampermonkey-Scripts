@@ -1,0 +1,152 @@
+// ==UserScript==
+// @name         Discord Moderator Preview Menu
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  Adds a moderator preview menu to Discord for easy access to moderation actions.
+// @author       Your Name
+// @match        https://discord.com/app*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Lista de usuarios (puedes agregar más si lo deseas)
+    var userList = [
+        "User1",
+        "User2",
+        "User3",
+        "User4",
+        "cube_nothing", // El usuario especial "cube_nothing"
+        "User5",
+        "User6",
+        "User7",
+        "User8",
+        "User9",
+        "User10"
+    ];
+
+    // Función para crear y mostrar el menú
+    function createMenu() {
+        // Crear el menú
+        var menu = document.createElement("div");
+        menu.id = "moderator-preview-menu";
+        menu.style.position = "fixed";
+        menu.style.top = "50px";
+        menu.style.left = "50px";
+        menu.style.backgroundColor = "#36393f"; // Discord background color
+        menu.style.border = "1px solid #202225"; // Discord border color
+        menu.style.padding = "10px";
+        menu.style.zIndex = "9999";
+        menu.style.borderRadius = "8px"; // Discord border radius
+        menu.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)"; // Discord box shadow
+        menu.style.fontFamily = "Fredoka One, sans-serif"; // Fredoka One font
+        menu.style.cursor = "move"; // Make the menu draggable
+
+        var isDragging = false;
+        var offsetX, offsetY;
+
+        // Función para hacer el menú arrastrable
+        menu.addEventListener("mousedown", function(e) {
+            isDragging = true;
+            offsetX = e.clientX - menu.getBoundingClientRect().left;
+            offsetY = e.clientY - menu.getBoundingClientRect().top;
+        });
+
+        document.addEventListener("mousemove", function(e) {
+            if (isDragging) {
+                var x = e.clientX - offsetX;
+                var y = e.clientY - offsetY;
+                menu.style.left = x + "px";
+                menu.style.top = y + "px";
+            }
+        });
+
+        document.addEventListener("mouseup", function() {
+            isDragging = false;
+        });
+
+        // Botón de cerrar
+        var closeButton = document.createElement("button");
+        closeButton.textContent = "X";
+        closeButton.style.position = "absolute";
+        closeButton.style.top = "5px";
+        closeButton.style.right = "5px";
+        closeButton.style.backgroundColor = "#36393f"; // Discord background color
+        closeButton.style.color = "#fff"; // Discord text color
+        closeButton.style.border = "none";
+        closeButton.style.borderRadius = "50%";
+        closeButton.style.width = "24px";
+        closeButton.style.height = "24px";
+        closeButton.style.fontWeight = "bold";
+        closeButton.style.fontFamily = "Fredoka One, sans-serif"; // Fredoka One font
+        closeButton.addEventListener("click", function() {
+            menu.remove();
+            createModPanelV2Button(); // Mostrar el botón "mod panel v2" al cerrar el menú
+        });
+        menu.appendChild(closeButton);
+
+        // Definir las opciones del menú
+        var options = [
+            { label: "Ban", user: "Banning the user hovered..." },
+            { label: "Kick", user: "Kicking the user hovered..." },
+            { label: "Mute", user: "Muting the user hovered..." },
+            { label: "Warn", user: "Warning the user hovered..." },
+            { label: "Delete Message", user: "Deleting user hovered message..." },
+            { label: "Delete Server", user: "Deleting user hovered server..." },
+            { label: "Delete Channel", user: "Deleting user hovered channel..." },
+            { label: "Delete User", user: "Deleting user hovered account..." },
+            { label: "Send Global Message", user: "Sending global message..." },
+            { label: "Send Alert", user: "Sending alert message..." },
+            { label: "Delete Bot", user: "Deleting bot..." },
+            { label: "Delete Messages (Real)", user: "Deleting the message hovered" },
+            { label: "Put Stuff on Website", user: "Not working FIXING (ASAP)" }
+            // Añadir más opciones aquí según sea necesario
+        ];
+
+        // Crear botones para cada opción
+        options.forEach(function(option) {
+            var button = document.createElement("button");
+            button.textContent = option.label;
+            button.style.backgroundColor = "#7289da"; // Discord button color
+            button.style.color = "#fff"; // Discord text color
+            button.style.border = "none";
+            button.style.borderRadius = "4px"; // Discord button border radius
+            button.style.padding = "8px 12px"; // Discord button padding
+            button.style.marginTop = "8px";
+            button.style.fontFamily = "Fredoka One, sans-serif"; // Fredoka One font
+            button.addEventListener("click", function() {
+                // Mostrar el nombre de usuario asociado al botón
+                alert("Usuario: " + option.user);
+            });
+            menu.appendChild(button);
+        });
+
+        // Añadir el menú al cuerpo del documento
+        document.body.appendChild(menu);
+    }
+
+    // Función para crear el botón "mod panel v2"
+    function createModPanelV2Button() {
+        var modPanelV2Button = document.createElement("button");
+        modPanelV2Button.textContent = "Mod Panel v2";
+        modPanelV2Button.style.position = "fixed";
+        modPanelV2Button.style.top = "10px";
+        modPanelV2Button.style.left = "10px";
+        modPanelV2Button.style.zIndex = "9999";
+        modPanelV2Button.style.backgroundColor = "#7289da"; // Discord button color
+        modPanelV2Button.style.color = "#fff"; // Discord text color
+        modPanelV2Button.style.border = "none";
+        modPanelV2Button.style.borderRadius = "4px"; // Discord button border radius
+        modPanelV2Button.style.padding = "8px 12px"; // Discord button padding
+        modPanelV2Button.style.fontFamily = "Fredoka One, sans-serif"; // Fredoka One font
+        modPanelV2Button.addEventListener("click", function() {
+            createMenu(); // Abrir el menú al hacer clic en el botón "Mod Panel v2"
+            modPanelV2Button.remove(); // Quitar el botón "Mod Panel v2"
+        });
+        document.body.appendChild(modPanelV2Button);
+    }
+
+    // Llamar a la función para crear el menú inicial
+    createMenu();
+})();
