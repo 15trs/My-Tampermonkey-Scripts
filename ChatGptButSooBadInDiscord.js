@@ -1,16 +1,15 @@
 // ==UserScript==
-// @name         ChatGPT-themed AI Chat
+// @name         Ai-by-DoulsttV2
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Create a ChatGPT-themed AI chat with predefined responses.
-// @author       Your name
+// @author       Doulstt
 // @match        https://discord.com/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
-
     // Predefined responses
     const responses = {
         "hi nigga": "shut the fuck up nigga",
@@ -42,10 +41,6 @@
     const style = `
         #chat-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            height: 400px;
             background-color: #F0F0F0; /* ChatGPT background color */
             color: #000000; /* ChatGPT text color */
             border-radius: 10px;
@@ -63,7 +58,7 @@
             background-color: #7289da; /* Discord blue */
             color: #ffffff; /* White text */
             padding: 5px 10px;
-            border: none;
+            border: 2px solid #4f5d75; /* Add border to the buttons */
             border-radius: 5px;
             margin-right: 10px;
             cursor: pointer;
@@ -90,11 +85,16 @@
     chatContainer.innerHTML = `
         <div id="chat-messages"></div>
         <div id="response-buttons">
+            <button class="button">i hate you</button>
+            <button class="button">why you ass</button>
+            <button class="button">yo</button>
+            <button class="button">faggot</button>
+            <button class="button">LMFAOSa</button>
+            <button class="button">💀</button>
+            <button class="button">hi nigga</button>
             <button class="button">wtf</button>
-            <button class="button">LMFAO?</button>
-            <button class="button">hi nigga?</button>
         </div>
-        <input id="chat-input" type="text" placeholder="Type your message..."/>
+        <input id="chat-input" type="text" placeholder="Type your message...Fast nigga"/>
     `;
     document.body.appendChild(chatContainer);
     const chatMessages = document.getElementById("chat-messages");
@@ -118,7 +118,7 @@
             chatMessages.appendChild(replyElement);
         } else {
             const replyElement = document.createElement("div");
-            replyElement.innerText = `ChatGPT: spell good OR THATS NOT A QUESTION NIGGA.`;
+            replyElement.innerText = `ChatGPT: I didn't understand the question.`;
             chatMessages.appendChild(replyElement);
         }
     }
@@ -141,4 +141,31 @@
             sendMessage(button.innerText);
         });
     });
+
+    // Make the chat container draggable
+    let isDragging = false;
+    let initialX;
+    let initialY;
+    let currentX;
+    let currentY;
+
+    chatContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        initialX = e.clientX - chatContainer.getBoundingClientRect().left;
+        initialY = e.clientY - chatContainer.getBoundingClientRect().top;
+    });
+
+    chatContainer.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+            chatContainer.style.left = currentX + 'px';
+            chatContainer.style.top = currentY + 'px';
+        }
+    });
+
+    chatContainer.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
 })();
