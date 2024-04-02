@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Discord Moderator Preview Menu
+// @name         Discord Mod Panel V2
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Adds a moderator preview menu to Discord for easy access to moderation actions.
-// @author       Your Name
+// @author       Doulstt
 // @match        https://discord.com/app*
 // @grant        none
 // ==/UserScript==
